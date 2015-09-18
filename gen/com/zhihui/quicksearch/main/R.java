@@ -1342,6 +1342,7 @@ containing a value of this type.
         public static final int gmailhint=0x7f0a0023;
         public static final int hello_world=0x7f0a000e;
         public static final int netfalse=0x7f0a002a;
+        public static final int nettrue=0x7f0a002b;
         public static final int newpass=0x7f0a0027;
         public static final int okpass=0x7f0a0028;
         public static final int oldpass=0x7f0a0026;

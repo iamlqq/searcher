@@ -440,6 +440,7 @@ int string forgetpass 0x7f0a0025
 int string gmailhint 0x7f0a0023
 int string hello_world 0x7f0a000e
 int string netfalse 0x7f0a002a
+int string nettrue 0x7f0a002b
 int string newpass 0x7f0a0027
 int string okpass 0x7f0a0028
 int string oldpass 0x7f0a0026
