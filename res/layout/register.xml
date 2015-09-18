@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+    <LinearLayout 
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal"
+	    android:layout_margin="5dp">
+	    <Button android:id="@+id/btn_login"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="已有账号点击进入登录"/>
+
+	</LinearLayout>
+	<LinearLayout 
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal"
+	    android:layout_margin="5dp">
+	    <TextView android:id="@+id/txt_username"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/txt_username"
+            android:singleLine="true"/>
+
+	    <EditText android:id="@+id/edi_username"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+            android:singleLine="true"/>
+
+	</LinearLayout>
+	<LinearLayout 
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal"
+	    android:layout_margin="5dp">
+	    <TextView android:id="@+id/txt_userhint1"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/userhint"/>
+	</LinearLayout>
+	<LinearLayout 
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal"
+	    android:layout_margin="5dp">
+	    <TextView android:id="@+id/txt_usergmail"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/txt_gmail"/>
+
+	    <EditText android:id="@+id/edi_usergmail"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+            android:singleLine="true"/>
+
+	</LinearLayout>
+	<LinearLayout 
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal"
+	    android:layout_margin="5dp">
+	    <TextView android:id="@+id/txt_userhint2"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/gmailhint"/>
+	</LinearLayout>
+	<LinearLayout 
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal"
+	    android:layout_margin="5dp">
+	    <TextView android:id="@+id/txt_userpass"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/txt_pass"/>
+
+	    <EditText android:id="@+id/edi_userpass"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:password="true"/>
+
+	</LinearLayout>
+	<LinearLayout 
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal"
+	    android:layout_margin="5dp">
+	    <TextView android:id="@+id/txt_userhint3"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/passhint"/>
+	</LinearLayout>
+	<LinearLayout 
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal"
+	    android:layout_margin="5dp">
+	    <TextView android:id="@+id/txt_surepass"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/txt_okpwd"/>
+
+	    <EditText android:id="@+id/edi_surepass"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:password="true"/>
+
+	</LinearLayout>
+	<LinearLayout 
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal"
+	    android:layout_margin="5dp">
+	    <TextView android:id="@+id/txt_userhint4"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/okpass"/>
+	</LinearLayout>
+    <LinearLayout android:id="@+id/lin_nconter"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal"
+	    android:layout_margin="5dp">
+		<Button android:id="@+id/btn_cancel"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:text="@string/btn_cancel"/>
+		<Button android:id="@+id/btn_sure"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:text="@string/btn_sure"/>
+	</LinearLayout>
+</LinearLayout>

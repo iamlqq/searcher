@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">QuickSearch</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="btn_user">自定义</string>
+    <string name="btn_welcome">欢迎您：</string>
+    <string name="btn_entertainment">娱乐</string>
+    <string name="txt_gmail">邮箱：</string>
+    <string name="txt_gmailhint">邮箱格式不正确</string>
+    <string name="txt_gmailnull">邮箱不能为空</string>
+    <string name="txt_pass">密码：</string>
+    <string name="txt_passhint">密码长度在6-16位之间</string>
+    <string name="txt_passnull">密码不能为空</string>
+    <string name="txt_username">用户名：</string>
+    <string name="txt_usernamehint">...</string>
+    <string name="txt_usernamenull">用户名不能为空</string>
+    <string name="btn_sure">确定</string>
+    <string name="btn_cancel">取消</string>
+    <string name="txt_oldpwd">旧密码</string>
+    <string name="txt_newpwd">新密码</string>
+    <string name="txt_okpwd">确认密码</string>
+    <string name="btn_hot">热门</string>
+    <string name="userhint">用户名不允许为空或者输入空格</string>
+    <string name="gmailhint">邮箱不允许为空或者输入空格</string>
+    <string name="passhint">密码不允许为空或者输入空格,最少6位</string>
+    <string name="forgetpass">忘记密码</string>
+    <string name="oldpass">旧密码不能为空</string>
+    <string name="newpass">新密码不能为空</string>
+    <string name="okpass">确认密码不能为空</string>
+    <string name="samepass">两次输入的新密码不一致</string>
+    <string name="netfalse">网络不可用，请检查网络</string>
+
+</resources>

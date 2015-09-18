@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal" >
+
+   <RelativeLayout
+        android:id="@+id/sause_msg_lin"
+        android:layout_width="fill_parent"
+        android:layout_height="?android:attr/listPreferredItemHeight"
+        android:layout_weight="1"
+        android:background="@drawable/all_transparent" >
+
+        <ImageView
+            android:id="@+id/soft_icon"
+            android:layout_width="48dip"
+            android:layout_height="48dip"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dip"
+            android:src="@drawable/ic_launcher" />
+
+        <TextView
+            android:id="@+id/sause_name"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_toRightOf="@id/soft_icon"
+            android:ellipsize="marquee"
+            android:singleLine="true"
+            android:textColor="#202020"
+            android:textSize="18dp"
+            android:layout_centerVertical="true" />
+ 
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/check_lin"
+        android:layout_width="50dp"
+        android:layout_height="?android:attr/listPreferredItemHeight"
+        android:background="@drawable/all_transparent"
+        android:gravity="center"
+        android:orientation="vertical"
+         >
+        <!-- <CheckBox android:id="@+id/sause_box"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            /> -->
+        <CheckBox android:id="@+id/sause_box" 
+            android:layout_width="wrap_content"  
+	        android:layout_height="wrap_content" 
+	        android:focusable="false"  
+	        android:focusableInTouchMode="false" 
+	        android:clickable="false"  
+	        android:layout_alignParentTop="true" 
+	        android:layout_marginLeft="5dp" /> 
+    </LinearLayout>
+
+</LinearLayout>
