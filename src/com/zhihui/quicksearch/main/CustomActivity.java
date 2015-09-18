@@ -1,4 +1,4 @@
-package com.zhihui.quicksearch.main;
+/*package com.zhihui.quicksearch.main;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -103,3 +103,4 @@ public class CustomActivity extends Activity implements OnClickListener{
 		
 	}
 }
+*/

@@ -48,18 +48,13 @@ public class AddCustomActivity extends Activity implements OnClickListener{
 	
 	List<NameValuePair> addparams;
 	Thread addThread;
-	private File cache;
 	
 	SureCustomJ sdata;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.addcustom);
-		cache = new File(Environment.getExternalStorageDirectory(), "cache");
-        
-        if(!cache.exists()){
-            cache.mkdirs();
-        }
+		
 		init();
 		data = SearchUtil.getNaviTwoData(AddCustomActivity.this);
 		if(data == null){
@@ -157,7 +152,7 @@ public class AddCustomActivity extends Activity implements OnClickListener{
 //	String	appid = "";
 	String customname, customurl;
 	private void updateView(){
-		adapter = new AddCustomAdapter(this, info.list1, cache);
+		adapter = new AddCustomAdapter(this, info.list1);
 		custom_list.setAdapter(adapter);
 		custom_list.setOnItemClickListener(new OnItemClickListener() {
 

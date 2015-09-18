@@ -23,6 +23,7 @@ import com.zhihui.quicksearch.http.SearchGlobal;
 import com.zhihui.quicksearch.http.SearchHttp;
 import com.zhihui.quicksearch.http.SearchPreference;
 import com.zhihui.quicksearch.util.Base64Util;
+import com.zhihui.quicksearch.util.SearchUtil;
 import com.zhihui.quicksearch.util.SecurityUtils;
 
 public class UserSettingActivity extends Activity implements OnClickListener {
@@ -78,7 +79,11 @@ public class UserSettingActivity extends Activity implements OnClickListener {
             public void onClick(DialogInterface dialog, int which) { 
             	String uid = SearchPreference.getFiledString(UserSettingActivity.this, SearchPreference.SEARCH_UID, null);
         		String token = SearchPreference.getFiledString(UserSettingActivity.this, SearchPreference.SEARCH_TOKEN, null);
-            	params_eit = new ArrayList<>();
+        		if(!SearchUtil.isAvailableNetwork(UserSettingActivity.this)){
+					Toast.makeText(UserSettingActivity.this, getResources().getString(R.string.netfalse), Toast.LENGTH_LONG).show();
+					return;
+				}
+        		params_eit = new ArrayList<>();
 				String str = SearchGlobal.net_eight;
 				String requestStr = "{\"opcode\":\""+str+"\",\"opdata\":{\"uid\":\""+uid+"\",\"token\":\""+token+"\"}}";
 				params_eit.add(new BasicNameValuePair("d", Base64Util.encodeByKey(Base64Util.encode(requestStr))));
@@ -90,7 +95,7 @@ public class UserSettingActivity extends Activity implements OnClickListener {
 						try {
 							String url = SearchGlobal.net_search + SearchGlobal.logout;
 							String result = SearchHttp.post(url, params_eit);
-							System.out.println("------返回自定义数据------" + result);
+							System.out.println("------返回推出登录数据------" + result);
 							if(result != null){
 								info = new UserInfoJ(UserSettingActivity.this, result);
 								if(info.success){

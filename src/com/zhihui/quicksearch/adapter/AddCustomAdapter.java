@@ -20,12 +20,10 @@ public class AddCustomAdapter extends BaseAdapter{
 	Context ctx;
 	List<RulesNavigationTwo> list;
 	AsynLoadimg asyn = new AsynLoadimg();
-	private File cache;
 	
-	public AddCustomAdapter(Context ctx, List<RulesNavigationTwo> list, File cache){
+	public AddCustomAdapter(Context ctx, List<RulesNavigationTwo> list){
 		this.ctx = ctx;
 		this.list = list;
-		this.cache = cache;
 	}
 	
 	@Override
@@ -55,7 +53,6 @@ public class AddCustomAdapter extends BaseAdapter{
 			arg1 = LayoutInflater.from(ctx).inflate(R.layout.addcustom_listitem, null);
 
 			holder = new ViewHolder();
-//			holder.soft_icon = (ImageView) arg1.findViewById(R.id.add_icon);
 			holder.navione_name = (TextView) arg1.findViewById(R.id.add_name);
 			arg1.setTag(holder);
 		}else{
@@ -64,7 +61,6 @@ public class AddCustomAdapter extends BaseAdapter{
 		
 		if(list != null){
 			holder.navione_name.setText(dataInfo.naviName);
-//			asyn.asyncloadImage(holder.soft_icon, dataInfo.icon, cache);
 		}
 		
 		return arg1;

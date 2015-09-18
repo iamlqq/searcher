@@ -33,8 +33,8 @@ public class SearchGlobal {
 	
 	//-----------以下是QuickSearch全局变量-----------
 	
-	public static final String net_search = "http://192.168.1.249:8080";
-//	public static final String net_search = "http://122.10.89.33:7080";
+//	public static final String net_search = "http://192.168.1.249:8080";
+	public static final String net_search = "http://122.10.89.33:7080";
 	
 	public static final String search = "/index/appconfig";
 	public static final String register = "/index/register";

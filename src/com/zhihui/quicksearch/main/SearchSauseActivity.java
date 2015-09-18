@@ -50,17 +50,14 @@ public class SearchSauseActivity extends Activity implements OnClickListener{
 	SearchSauseJ info;
 	Handler handler;
 	
-	private File cache;
+	private File cache1;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.searchsause);
 		//创建缓存目录，系统一运行就得创建缓存目录的，
-        cache = new File(Environment.getExternalStorageDirectory(), "cache");
+        cache1 = new File(Environment.getExternalStorageDirectory(), "cache1");
         
-        if(!cache.exists()){
-            cache.mkdirs();
-        }
 //		spinner = (Spinner) findViewById(R.id.Spinner01);
 //        //将可选内容与ArrayAdapter连接起来
 //		ArrayAdapter<String>adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,m);
@@ -104,6 +101,10 @@ public class SearchSauseActivity extends Activity implements OnClickListener{
 								String new_result = json.toString();
 								SearchPreference.setFiledString(SearchSauseActivity.this,
 										SearchPreference.SEARCH_KEY_DATA, new_result);
+								SearchUtil.deleteFile(cache1);
+								if(!cache1.exists()){
+						            cache1.mkdirs();
+						        }
 								Message msg = new Message();
 								msg.what = 0; 
 								handler.sendMessage(msg);
@@ -128,6 +129,7 @@ public class SearchSauseActivity extends Activity implements OnClickListener{
 			};
 		};
 	}
+	
 	//使用数组形式操作
     class SpinnerSelectedListener implements OnItemSelectedListener{
  
@@ -149,7 +151,7 @@ public class SearchSauseActivity extends Activity implements OnClickListener{
 			
 			int selectInt0 = SearchPreference.getFiledInt(SearchSauseActivity.this, SearchPreference.SEARCH_KEY_INT, 0);
 			inputTxt.setHint(info.list1.get(selectInt0).sauseName);
-			sadapter = new SearchSauseAdapter(SearchSauseActivity.this, info.list1, cache);
+			sadapter = new SearchSauseAdapter(SearchSauseActivity.this, info.list1, cache1);
 			list_view.setChoiceMode(ListView.CHOICE_MODE_SINGLE); 
 			list_view.setAdapter(sadapter);
 			list_view.setOnItemClickListener(new OnItemClickListener() {

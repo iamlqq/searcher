@@ -51,7 +51,7 @@ public class NavigationActivity extends Activity implements OnClickListener{
 	GridView grid_view1, grid_view2;
 //	private Spinner spinner2;
 	private Spinner spinner3;
-	private File cache;
+	private File cache2;
 	
 	Button btn_hot;
 	
@@ -81,11 +81,8 @@ public class NavigationActivity extends Activity implements OnClickListener{
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		cache = new File(Environment.getExternalStorageDirectory(), "cache");
+		cache2 = new File(Environment.getExternalStorageDirectory(), "cache2");
         
-        if(!cache.exists()){
-            cache.mkdirs();
-        }
 		init();
 		setContentView(mView);
 		
@@ -148,6 +145,10 @@ public class NavigationActivity extends Activity implements OnClickListener{
 								String new_result = json.toString();
 								SearchPreference.setFiledString(NavigationActivity.this,
 										SearchPreference.NAVIGA_KEY_DATA_1, new_result);
+								SearchUtil.deleteFile(cache2);
+								if(!cache2.exists()){
+						            cache2.mkdirs();
+						        }
 								Message msg = new Message();
 								msg.what = 0; 
 								handler1.sendMessage(msg);
@@ -332,7 +333,7 @@ public class NavigationActivity extends Activity implements OnClickListener{
 //		spinner2.setVisibility(View.VISIBLE);
 		
 		if(infoO.list1 != null && !infoO.list1.isEmpty()){
-			naviOneadapter = new NavigationAdapterOne(this, infoO.list1, cache);
+			naviOneadapter = new NavigationAdapterOne(this, infoO.list1, cache2);
 			grid_view1.setAdapter(naviOneadapter);
 		}
 		grid_view1.setOnItemClickListener(new OnItemClickListener() {
