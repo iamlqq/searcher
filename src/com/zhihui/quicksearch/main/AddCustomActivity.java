@@ -1,6 +1,5 @@
 package com.zhihui.quicksearch.main;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,12 +9,10 @@ import org.apache.http.message.BasicNameValuePair;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -27,10 +24,12 @@ import android.widget.Toast;
 
 import com.zhihui.quicksearch.adapter.AddCustomAdapter;
 import com.zhihui.quicksearch.bean.AddCustomJ;
+import com.zhihui.quicksearch.bean.RulesCustomLocal;
 import com.zhihui.quicksearch.bean.SureCustomJ;
 import com.zhihui.quicksearch.http.SearchGlobal;
 import com.zhihui.quicksearch.http.SearchHttp;
 import com.zhihui.quicksearch.http.SearchPreference;
+import com.zhihui.quicksearch.sqlite.SearchSqlite;
 import com.zhihui.quicksearch.util.Base64Util;
 import com.zhihui.quicksearch.util.SearchUtil;
 import com.zhihui.quicksearch.util.SecurityUtils;
@@ -149,7 +148,7 @@ public class AddCustomActivity extends Activity implements OnClickListener{
 		};
 	};
 	
-//	String	appid = "";
+	int	appid;
 	String customname, customurl;
 	private void updateView(){
 		adapter = new AddCustomAdapter(this, info.list1);
@@ -162,7 +161,7 @@ public class AddCustomActivity extends Activity implements OnClickListener{
 				// TODO Auto-generated method stub
 				edi_customname.setText(info.list1.get(arg2).naviName);
 				edi_customurl.setText(info.list1.get(arg2).link);
-//				appid += info.list1.get(arg2).id;
+				appid = info.list1.get(arg2).id;
 			}
 		});
 	}
@@ -212,6 +211,15 @@ public class AddCustomActivity extends Activity implements OnClickListener{
 						}
 					});
 					thread.start();
+				}else{
+					RulesCustomLocal rc = new RulesCustomLocal();
+					rc.setId_c(appid);
+					rc.setCustomName(customname);
+					rc.setLink(customurl);
+					SearchSqlite.getInstance(AddCustomActivity.this).insertCustom(rc);
+					Message msg = new Message();
+					msg.what = 0; 
+					surecustom_handler.sendMessage(msg);
 				}
 			
 			break;
@@ -225,7 +233,7 @@ public class AddCustomActivity extends Activity implements OnClickListener{
 			if(msg.what == 0){
 			//界面跳转代码。。。。。
 				//updateView();
-				sendBroadcast(new Intent("com.zhihui.search.log"));
+//				sendBroadcast(new Intent("com.zhihui.search.log"));
 				sendBroadcast(new Intent("com.zhihui.search.custom"));
 				AddCustomActivity.this.finish();
 			}

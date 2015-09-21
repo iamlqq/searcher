@@ -31,6 +31,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.zhihui.quicksearch.adapter.CustomAdapter;
+import com.zhihui.quicksearch.adapter.CustomAdapterLocal;
 import com.zhihui.quicksearch.adapter.NavigationAdapterOne;
 import com.zhihui.quicksearch.adapter.NavigationAdapterTwo;
 import com.zhihui.quicksearch.adapter.NavigationSadapterO;
@@ -38,10 +39,12 @@ import com.zhihui.quicksearch.adapter.NavigationSadapterT;
 import com.zhihui.quicksearch.bean.CustomJ;
 import com.zhihui.quicksearch.bean.NavigationOneJ;
 import com.zhihui.quicksearch.bean.NavigationTwoJ;
+import com.zhihui.quicksearch.bean.RulesCustomLocal;
 import com.zhihui.quicksearch.bean.UserInfoJ;
 import com.zhihui.quicksearch.http.SearchGlobal;
 import com.zhihui.quicksearch.http.SearchHttp;
 import com.zhihui.quicksearch.http.SearchPreference;
+import com.zhihui.quicksearch.sqlite.SearchSqlite;
 import com.zhihui.quicksearch.util.Base64Util;
 import com.zhihui.quicksearch.util.SearchUtil;
 import com.zhihui.quicksearch.util.SecurityUtils;
@@ -86,13 +89,13 @@ public class NavigationActivity extends Activity implements OnClickListener{
 		init();
 		setContentView(mView);
 		
-		IntentFilter filter = new IntentFilter();  
+		/*IntentFilter filter = new IntentFilter();  
         filter.addAction("com.zhihui.search.log");  
-        registerReceiver(mylogReceiver, filter);
+        registerReceiver(mylogReceiver, filter);*/
         
 		IntentFilter filter1 = new IntentFilter();  
 		filter1.addAction("com.zhihui.search.custom");  
-        registerReceiver(myReceiver, filter);
+        registerReceiver(myReceiver, filter1);
         data1();
         data2();
 	}
@@ -403,9 +406,60 @@ public class NavigationActivity extends Activity implements OnClickListener{
 				custom_data(uid, token);
 				
 			}else{
+				custom_view.setVisibility(View.VISIBLE);
+				grid_view1.setVisibility(View.GONE);
 				//没有登录
-				Intent intent = new Intent(NavigationActivity.this, RegisterActivity.class);
-				startActivity(intent);
+//				Intent intent = new Intent(NavigationActivity.this, RegisterActivity.class);
+//				startActivity(intent);
+				list = SearchSqlite.getInstance(NavigationActivity.this).selectCustom();
+				if(list != null && !list.isEmpty()){
+					RulesCustomLocal lc = new RulesCustomLocal();
+					lc.id_c = 9999;
+					lc.customName = "Add+";
+					lc.link = "";
+					list.add(lc);
+					CustomAdapterLocal adapter = new CustomAdapterLocal(NavigationActivity.this, list);
+					custom_view.setAdapter(adapter);
+					custom_view.setOnItemClickListener(new OnItemClickListener() {
+
+						@Override
+						public void onItemClick(AdapterView<?> arg0, View arg1,
+								int arg2, long arg3) {
+							// TODO Auto-generated method stub
+							if(list.get(arg2).id_c == 9999){
+								Intent intent = new Intent(NavigationActivity.this, AddCustomActivity.class);
+								startActivity(intent);
+							}else{
+								Intent intent = new Intent(); 
+								intent.setAction("android.intent.action.VIEW");    
+								Uri content_url = Uri.parse(list.get(arg2).link);
+								intent.setData(content_url); 
+								intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+								startActivity(intent);
+							}
+						}
+					});
+				}else{
+					RulesCustomLocal lc = new RulesCustomLocal();
+					lc.id_c = 9999;
+					lc.customName = "Add+";
+					lc.link = "";
+					list.add(lc);
+					CustomAdapterLocal adapter = new CustomAdapterLocal(NavigationActivity.this, list);
+					custom_view.setAdapter(adapter);
+					custom_view.setOnItemClickListener(new OnItemClickListener() {
+
+						@Override
+						public void onItemClick(AdapterView<?> arg0, View arg1,
+								int arg2, long arg3) {
+							// TODO Auto-generated method stub
+							if(list.get(arg2).id_c == 9999){
+								Intent intent = new Intent(NavigationActivity.this, AddCustomActivity.class);
+								startActivity(intent);
+							}
+						}
+					});
+				}
 			}
 //			Intent intent = new Intent(NavigationActivity.this, AddCustomActivity.class);
 //			startActivity(intent);
@@ -497,28 +551,28 @@ public class NavigationActivity extends Activity implements OnClickListener{
 	
 	Handler update = new Handler(){
 		public void handleMessage(android.os.Message msg) {
-			if(msg.what == 0){
-			//界面跳转代码。。。。。
-				user_eit.setOnClickListener(new OnClickListener() {
-					
-					@Override
-					public void onClick(View arg0) {
-						// TODO Auto-generated method stub
-						Intent intent = new Intent(NavigationActivity.this, UserSettingActivity.class);
-						startActivity(intent);
-					}
-				});
-			}else{
-				user_eit.setVisibility(View.GONE);
-				SearchPreference.deleteSetting(NavigationActivity.this,
-						SearchPreference.SEARCH_UID, null);
-				SearchPreference.deleteSetting(NavigationActivity.this,
-						SearchPreference.SEARCH_TOKEN, null);
-			}
+//			if(msg.what == 0){
+//			//界面跳转代码。。。。。
+//				user_eit.setOnClickListener(new OnClickListener() {
+//					
+//					@Override
+//					public void onClick(View arg0) {
+//						// TODO Auto-generated method stub
+//						Intent intent = new Intent(NavigationActivity.this, UserSettingActivity.class);
+//						startActivity(intent);
+//					}
+//				});
+//			}else{
+//				user_eit.setVisibility(View.GONE);
+//				SearchPreference.deleteSetting(NavigationActivity.this,
+//						SearchPreference.SEARCH_UID, null);
+//				SearchPreference.deleteSetting(NavigationActivity.this,
+//						SearchPreference.SEARCH_TOKEN, null);
+//			}
 		};
 	};
 	
-	public BroadcastReceiver mylogReceiver = new BroadcastReceiver(){  
+	/*public BroadcastReceiver mylogReceiver = new BroadcastReceiver(){  
 		  
         @Override  
         public void onReceive(Context context, Intent intent) {  
@@ -534,9 +588,9 @@ public class NavigationActivity extends Activity implements OnClickListener{
     		}
         }  
           
-	};
+	};*/
 	
-	Button user_eit;
+//	Button user_eit;
 	public BroadcastReceiver myReceiver = new BroadcastReceiver(){  
 		  
         @Override  
@@ -549,12 +603,44 @@ public class NavigationActivity extends Activity implements OnClickListener{
     			islogin(uid, token);
     			custom_data(uid, token);
     		}else{
-    			user_eit.setVisibility(View.GONE);
-    			custom_view.setVisibility(View.GONE);
-    			grid_view1.setVisibility(View.VISIBLE);
+//    			user_eit.setVisibility(View.GONE);
+    			custom_view.setVisibility(View.VISIBLE);
+    			grid_view1.setVisibility(View.GONE);
+    			custom_datal();
     		}
         }  
           
 	};
+	
+	List<RulesCustomLocal> list; 
+	
+	public void custom_datal(){
+		list = SearchSqlite.getInstance(NavigationActivity.this).selectCustom();
+		if(list != null && !list.isEmpty()){
+			CustomAdapterLocal adapter = new CustomAdapterLocal(NavigationActivity.this, list);
+			custom_view.setAdapter(adapter);
+		}else{
+			RulesCustomLocal lc = new RulesCustomLocal();
+			lc.id_c = 9999;
+			lc.customName = "Add+";
+			lc.link = "";
+			list.add(lc);
+			CustomAdapterLocal adapter = new CustomAdapterLocal(NavigationActivity.this, list);
+			custom_view.setAdapter(adapter);
+			custom_view.setOnItemClickListener(new OnItemClickListener() {
+
+				@Override
+				public void onItemClick(AdapterView<?> arg0, View arg1,
+						int arg2, long arg3) {
+					// TODO Auto-generated method stub
+					if(list.get(arg2).id_c == 9999){
+						Intent intent = new Intent(NavigationActivity.this, AddCustomActivity.class);
+						startActivity(intent);
+					}
+				}
+			});
+		}
+	}
+	
 }
 

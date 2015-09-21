@@ -207,6 +207,7 @@ public class SearchPreference
 	public static final String key_sim_country = "sim_country";
 	public static final String SEARCH_UID = "SEARCH_UID";
 	public static final String SEARCH_TOKEN = "SEARCH_TOKEN";
+	public static final String SEARCH_LOCAL = "SEARCH_LOCAL";
 	
 	public static boolean deleteSetting(Context context, String key,
 			String values)

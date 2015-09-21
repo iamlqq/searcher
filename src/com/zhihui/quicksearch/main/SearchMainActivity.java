@@ -11,29 +11,33 @@ import android.app.LocalActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Message;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.zhihui.quicksearch.bean.UserInfoJ;
+import com.zhihui.quicksearch.http.SearchGlobal;
 import com.zhihui.quicksearch.http.SearchHttp;
 import com.zhihui.quicksearch.http.SearchPreference;
 import com.zhihui.quicksearch.util.Base64Util;
+import com.zhihui.quicksearch.util.SearchUtil;
 import com.zhihui.quicksearch.util.SecurityUtils;
 
 @SuppressWarnings("deprecation")
 public class SearchMainActivity extends Activity {
 
+	Button btn_user;
 	Context context = null;
 	LocalActivityManager manager = null;
 	ViewPager pager = null;
@@ -44,9 +48,9 @@ public class SearchMainActivity extends Activity {
 	private ImageView[] imageViews;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);//去掉标题栏 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-
 		context = SearchMainActivity.this;
 		manager = new LocalActivityManager(this , true);
 		manager.dispatchCreate(savedInstanceState);
@@ -55,12 +59,37 @@ public class SearchMainActivity extends Activity {
 //		
 //		System.out.println("加密"+ Base64Util.encode(ccc));
 //		System.out.println("加密d=" + Base64Util.encodeByKey(Base64Util.encode(ccc)) + "&c=" + SecurityUtils.Get32CodeModel(Base64Util.encodeByKey(Base64Util.encode(ccc))));
-		
+		init();
 		initPagerViewer();
 		initImageView();
-		sendBroadcast(new Intent("com.zhihui.search.log"));
+		sendBroadcast(new Intent("com.zhihui.search.custom"));
 	}
 	MyPagerAdapter adapterPage;
+	
+	private void init(){
+		btn_user = (Button) findViewById(R.id.btn_user);
+		final String uid = SearchPreference.getFiledString(SearchMainActivity.this, SearchPreference.SEARCH_UID, null);
+		final String token = SearchPreference.getFiledString(SearchMainActivity.this, SearchPreference.SEARCH_TOKEN, null);
+		btn_user.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				if (uid != null && !"".equals(uid) && token != null && !"".equals(token)) {
+					if(islogin(uid, token)){
+						Intent intent = new Intent(SearchMainActivity.this, UserSettingActivity.class);
+						startActivity(intent);
+					}else{
+						Intent intent = new Intent(SearchMainActivity.this, RegisterActivity.class);
+						startActivity(intent);
+					}
+				}else{
+					Intent intent = new Intent(SearchMainActivity.this, RegisterActivity.class);
+					startActivity(intent);
+				}
+			}
+		});
+	}
 	/**
 	 * 初始化PageViewer
 	 */
@@ -191,5 +220,43 @@ public class SearchMainActivity extends Activity {
 		public void onPageScrolled(int arg0, float arg1, int arg2) {
 			
 		}
+	}
+	UserInfoJ info;
+	List<NameValuePair> isparams;
+	boolean islog = false;
+	public boolean islogin(String uid, String token){
+		if(!SearchUtil.isAvailableNetwork(SearchMainActivity.this)){
+			Toast.makeText(SearchMainActivity.this, getResources().getString(R.string.netfalse), Toast.LENGTH_LONG).show();
+			islog = false;
+			return islog;
+		}
+		isparams = new ArrayList<NameValuePair>();
+		String str = SearchGlobal.net_eleven;
+		String requestStr = "{\"opcode\":\""+str+"\",\"opdata\":{\"uid\":\""+uid+"\",\"token\":\""+token+"\"}}";
+		isparams.add(new BasicNameValuePair("d", Base64Util.encodeByKey(Base64Util.encode(requestStr))));
+		isparams.add(new BasicNameValuePair("c", SecurityUtils.Get32CodeModel(Base64Util.encodeByKey(Base64Util.encode(requestStr)))));
+		Thread isthread = new Thread(new Runnable() {
+			public void run() {
+				//reg();
+				try {
+					String url = SearchGlobal.net_search + SearchGlobal.islogin;
+//					String result = AndroidHttp.postnoParam(url);
+					String result = SearchHttp.post(url, isparams);
+					System.out.println("------返回是否登录数据------" + result);
+					if(result != null){
+						info = new UserInfoJ(SearchMainActivity.this, result);
+						if(info.success){
+							islog = true;
+						}else{
+							islog = false;
+						}
+					}
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+			}
+		});
+		isthread.start();
+		return islog;
 	}
 }

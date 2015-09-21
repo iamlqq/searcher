@@ -135,7 +135,7 @@ public class LoginActivity extends Activity implements OnClickListener{
 			if(msg.what == 0){
 				btn_loginsure.setClickable(true);
 				txt_logintishi2.setText("µÇÂ¼³É¹¦");
-				sendBroadcast(new Intent("com.zhihui.search.log"));
+//				sendBroadcast(new Intent("com.zhihui.search.log"));
 				sendBroadcast(new Intent("com.zhihui.search.custom")); 
 				LoginActivity.this.finish();
 				closeA();

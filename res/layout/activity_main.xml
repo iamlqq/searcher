@@ -5,34 +5,82 @@
     android:background="#EEEEEE"
     android:orientation="vertical" >
 
-   <LinearLayout
-        android:id="@+id/linearLayout01"
-        android:layout_width="match_parent"
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <RelativeLayout
+            android:id="@+id/lin_nconter"
+            android:layout_width="fill_parent"
+            android:layout_height="55dp"
+            android:background="@android:color/black" >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:orientation="horizontal" >
+
+                <ImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/ic_launcher" />
+
+                <TextView
+                    android:id="@+id/txt_loginpass"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/app_name"
+                    android:textColor="@android:color/white" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_margin="5dp"
+                android:orientation="horizontal" >
+
+                <Button
+                    android:id="@+id/btn_user"
+                    android:layout_width="60dp"
+                    android:layout_height="40dp"
+                    android:text="@string/btn_regis"
+                    android:textColor="@android:color/white" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout01"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lin_nconter"
+            android:orientation="vertical" >
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/viewpage"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical" >
 
-	    <android.support.v4.view.ViewPager
-	        android:id="@+id/viewpage"
-	        android:layout_width="fill_parent"
-	        android:layout_height="wrap_content"/>
-    	
-	   </LinearLayout>
-
-    <RelativeLayout  
-        android:layout_width="fill_parent"  
-        android:layout_height="wrap_content"  
-        android:orientation="vertical" >
-        
-    <LinearLayout  
-        android:id="@+id/viewGroup"  
-        android:layout_width="fill_parent"  
-        android:layout_height="wrap_content"  
-        android:layout_alignParentBottom="true"  
-        android:layout_marginBottom="40dp"  
-        android:gravity="center_horizontal"  
-        android:orientation="horizontal" >  
-        
-    </LinearLayout>  
-    
+        <LinearLayout
+            android:id="@+id/viewGroup"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="40dp"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal" >
+        </LinearLayout>
     </RelativeLayout>
+
 </FrameLayout>

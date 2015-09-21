@@ -29,13 +29,13 @@
 		            android:layout_height="wrap_content"
 		            android:text="@string/btn_user"/>
 		    </LinearLayout>
-		    <Button android:id="@+id/user_eit"
+		    <!-- <Button android:id="@+id/user_eit"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
 	            android:text="@string/btn_welcome"
 	            android:visibility="gone"
 	            android:background="#ffffff"
-	            android:layout_alignParentRight="true"/>
+	            android:layout_alignParentRight="true"/> -->
 		</RelativeLayout>
 	    <GridView
 	        android:id="@+id/grid_view1"
