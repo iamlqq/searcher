@@ -212,14 +212,38 @@ public class AddCustomActivity extends Activity implements OnClickListener{
 					});
 					thread.start();
 				}else{
-					RulesCustomLocal rc = new RulesCustomLocal();
-					rc.setId_c(appid);
-					rc.setCustomName(customname);
-					rc.setLink(customurl);
-					SearchSqlite.getInstance(AddCustomActivity.this).insertCustom(rc);
-					Message msg = new Message();
-					msg.what = 0; 
-					surecustom_handler.sendMessage(msg);
+					List<RulesCustomLocal> list = SearchSqlite.getInstance(AddCustomActivity.this).selectCustom();
+					if(list != null && !list.isEmpty()){
+						RulesCustomLocal rc = null;
+						for(int i = 0; i < list.size(); i++){
+							if(appid == list.get(i).id_c && customname.equals(list.get(i).customName) && customurl.equals(list.get(i).link)){
+								Toast.makeText(AddCustomActivity.this, "此条记录已经存在", Toast.LENGTH_LONG).show();
+								return;
+							}else{
+								rc = new RulesCustomLocal();
+								rc.setId_c(appid);
+								rc.setCustomName(customname);
+								rc.setLink(customurl);
+								
+								
+							}
+						}
+						if(rc != null){
+							SearchSqlite.getInstance(AddCustomActivity.this).insertCustom(rc);
+							Message msg = new Message();
+							msg.what = 0; 
+							surecustom_handler.sendMessage(msg);
+						}
+					}else{
+						RulesCustomLocal rc = new RulesCustomLocal();
+						rc.setId_c(appid);
+						rc.setCustomName(customname);
+						rc.setLink(customurl);
+						SearchSqlite.getInstance(AddCustomActivity.this).insertCustom(rc);
+						Message msg = new Message();
+						msg.what = 0; 
+						surecustom_handler.sendMessage(msg);
+					}
 				}
 			
 			break;
@@ -234,6 +258,7 @@ public class AddCustomActivity extends Activity implements OnClickListener{
 			//界面跳转代码。。。。。
 				//updateView();
 //				sendBroadcast(new Intent("com.zhihui.search.log"));
+				SearchPreference.ISGONE = true;
 				sendBroadcast(new Intent("com.zhihui.search.custom"));
 				AddCustomActivity.this.finish();
 			}

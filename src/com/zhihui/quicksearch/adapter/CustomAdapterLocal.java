@@ -43,6 +43,7 @@ public class CustomAdapterLocal extends BaseAdapter{
 	@Override
 	public View getView(int arg0, View arg1, ViewGroup arg2) {
 		// TODO Auto-generated method stub
+		System.out.println("-----------" + list.size());
 		RulesCustomLocal dataInfo = list.get(arg0);
 		System.out.println("listcustom"+list.get(arg0).customName);
 		ViewHolder holder;

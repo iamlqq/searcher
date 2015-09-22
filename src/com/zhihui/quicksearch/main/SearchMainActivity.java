@@ -11,6 +11,7 @@ import android.app.LocalActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Message;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
@@ -62,6 +63,7 @@ public class SearchMainActivity extends Activity {
 		init();
 		initPagerViewer();
 		initImageView();
+		SearchPreference.ISGONE = false;
 		sendBroadcast(new Intent("com.zhihui.search.custom"));
 	}
 	MyPagerAdapter adapterPage;
@@ -76,14 +78,17 @@ public class SearchMainActivity extends Activity {
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
 				if (uid != null && !"".equals(uid) && token != null && !"".equals(token)) {
-					if(islogin(uid, token)){
-						Intent intent = new Intent(SearchMainActivity.this, UserSettingActivity.class);
-						startActivity(intent);
-					}else{
-						Intent intent = new Intent(SearchMainActivity.this, RegisterActivity.class);
-						startActivity(intent);
-					}
+					System.out.println("------已经执行-----");
+//					if(islogin(uid, token)){
+//						Intent intent = new Intent(SearchMainActivity.this, UserSettingActivity.class);
+//						startActivity(intent);
+//					}else{
+//						Intent intent = new Intent(SearchMainActivity.this, RegisterActivity.class);
+//						startActivity(intent);
+//					}
+					islogin(uid, token);
 				}else{
+					System.out.println("------已经执行3-----");
 					Intent intent = new Intent(SearchMainActivity.this, RegisterActivity.class);
 					startActivity(intent);
 				}
@@ -223,12 +228,9 @@ public class SearchMainActivity extends Activity {
 	}
 	UserInfoJ info;
 	List<NameValuePair> isparams;
-	boolean islog = false;
-	public boolean islogin(String uid, String token){
+	public void islogin(String uid, String token){
 		if(!SearchUtil.isAvailableNetwork(SearchMainActivity.this)){
 			Toast.makeText(SearchMainActivity.this, getResources().getString(R.string.netfalse), Toast.LENGTH_LONG).show();
-			islog = false;
-			return islog;
 		}
 		isparams = new ArrayList<NameValuePair>();
 		String str = SearchGlobal.net_eleven;
@@ -246,9 +248,13 @@ public class SearchMainActivity extends Activity {
 					if(result != null){
 						info = new UserInfoJ(SearchMainActivity.this, result);
 						if(info.success){
-							islog = true;
+							Message msg = new Message();
+							msg.what = 0; 
+							userA.sendMessage(msg);
 						}else{
-							islog = false;
+							Message msg = new Message();
+							msg.what = 1; 
+							userA.sendMessage(msg);
 						}
 					}
 				} catch (Exception e) {
@@ -257,6 +263,31 @@ public class SearchMainActivity extends Activity {
 			}
 		});
 		isthread.start();
-		return islog;
+	}
+	
+	Handler userA = new Handler(){
+		public void handleMessage(android.os.Message msg) {
+			if(msg.what == 0){
+				System.out.println("------已经执行1-----");
+				Intent intent = new Intent(SearchMainActivity.this, UserSettingActivity.class);
+				startActivity(intent);
+			}else{
+				System.out.println("------已经执行2-----");
+				Intent intent = new Intent(SearchMainActivity.this, RegisterActivity.class);
+				startActivity(intent);
+			}
+		};
+	};
+	
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		try{
+			init();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
 	}
 }

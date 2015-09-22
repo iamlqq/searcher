@@ -18,17 +18,19 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.zhihui.quicksearch.bean.RulesCustomLocal;
 import com.zhihui.quicksearch.bean.UserInfoJ;
 import com.zhihui.quicksearch.http.SearchGlobal;
 import com.zhihui.quicksearch.http.SearchHttp;
 import com.zhihui.quicksearch.http.SearchPreference;
+import com.zhihui.quicksearch.sqlite.SearchSqlite;
 import com.zhihui.quicksearch.util.Base64Util;
 import com.zhihui.quicksearch.util.SearchUtil;
 import com.zhihui.quicksearch.util.SecurityUtils;
 
 public class UserSettingActivity extends Activity implements OnClickListener {
 
-	Button btn_updatepwd, btn_eit;
+	Button btn_synchro, btn_updatepwd, btn_eit;
 	List<NameValuePair> params_eit;
 	UserInfoJ info;
 	Message msg = new Message();
@@ -47,8 +49,10 @@ public class UserSettingActivity extends Activity implements OnClickListener {
 	}
 
 	private void init() {
+		btn_synchro = (Button) findViewById(R.id.btn_synchro);
 		btn_updatepwd = (Button) findViewById(R.id.btn_updatepwd);
 		btn_eit = (Button) findViewById(R.id.btn_eit);
+		btn_synchro.setOnClickListener(this);
 		btn_updatepwd.setOnClickListener(this);
 		btn_eit.setOnClickListener(this);
 	}
@@ -57,6 +61,15 @@ public class UserSettingActivity extends Activity implements OnClickListener {
 	public void onClick(View arg0) {
 		// TODO Auto-generated method stub
 		switch (arg0.getId()) {
+		case R.id.btn_synchro:
+			List<RulesCustomLocal> list = SearchSqlite.getInstance(UserSettingActivity.this).selectCustom();
+			if(list != null && !list.isEmpty()){
+				btn_synchro.setText("正在同步，请稍候");
+				
+			}else{
+				Toast.makeText(UserSettingActivity.this, "您没有自定义数据", Toast.LENGTH_LONG).show();
+			}
+			break;
 		case R.id.btn_updatepwd:
 			Intent intent = new Intent(UserSettingActivity.this, UpdatePwdActivity.class);
 			startActivity(intent);

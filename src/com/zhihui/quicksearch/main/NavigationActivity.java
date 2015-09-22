@@ -400,18 +400,18 @@ public class NavigationActivity extends Activity implements OnClickListener{
 			grid_view1.setVisibility(View.VISIBLE);
 			break;
 		case R.id.user_txt:
-			String uid = SearchPreference.getFiledString(NavigationActivity.this, SearchPreference.SEARCH_UID, null);
-			String token = SearchPreference.getFiledString(NavigationActivity.this, SearchPreference.SEARCH_TOKEN, null);
-			if (uid != null && !"".equals(uid) && token != null && !"".equals(token)) {
-				custom_data(uid, token);
-				
-			}else{
+//			String uid = SearchPreference.getFiledString(NavigationActivity.this, SearchPreference.SEARCH_UID, null);
+//			String token = SearchPreference.getFiledString(NavigationActivity.this, SearchPreference.SEARCH_TOKEN, null);
+//			if (uid != null && !"".equals(uid) && token != null && !"".equals(token)) {
+//				custom_data(uid, token);
+//				
+//			}else{
 				custom_view.setVisibility(View.VISIBLE);
 				grid_view1.setVisibility(View.GONE);
 				//Ã»ÓÐµÇÂ¼
 //				Intent intent = new Intent(NavigationActivity.this, RegisterActivity.class);
 //				startActivity(intent);
-				list = SearchSqlite.getInstance(NavigationActivity.this).selectCustom();
+				final List<RulesCustomLocal> list = SearchSqlite.getInstance(NavigationActivity.this).selectCustom();
 				if(list != null && !list.isEmpty()){
 					RulesCustomLocal lc = new RulesCustomLocal();
 					lc.id_c = 9999;
@@ -460,7 +460,7 @@ public class NavigationActivity extends Activity implements OnClickListener{
 						}
 					});
 				}
-			}
+//			}
 //			Intent intent = new Intent(NavigationActivity.this, AddCustomActivity.class);
 //			startActivity(intent);
 			break;
@@ -527,26 +527,29 @@ public class NavigationActivity extends Activity implements OnClickListener{
 		if(custom_info.list1 != null && !custom_info.list1.isEmpty()){
 			CustomAdapter adapter = new CustomAdapter(NavigationActivity.this, custom_info.list1);
 			custom_view.setAdapter(adapter);
-		}
-		custom_view.setOnItemClickListener(new OnItemClickListener() {
+			custom_view.setOnItemClickListener(new OnItemClickListener() {
 
-			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-					long arg3) {
-				// TODO Auto-generated method stub
-				if(custom_info.list1.get(arg2).id == 9999){
-					Intent intent = new Intent(NavigationActivity.this, AddCustomActivity.class);
-					startActivity(intent);
-				}else{
-					Intent intent = new Intent(); 
-					intent.setAction("android.intent.action.VIEW");    
-					Uri content_url = Uri.parse(custom_info.list1.get(arg2).link);
-					intent.setData(content_url); 
-					intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-					startActivity(intent);
+				@Override
+				public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+						long arg3) {
+					// TODO Auto-generated method stub
+					if(custom_info.list1.get(arg2).id == 9999){
+						Intent intent = new Intent(NavigationActivity.this, AddCustomActivity.class);
+						startActivity(intent);
+					}else{
+						Intent intent = new Intent(); 
+						intent.setAction("android.intent.action.VIEW");    
+						Uri content_url = Uri.parse(custom_info.list1.get(arg2).link);
+						intent.setData(content_url); 
+						intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+						startActivity(intent);
+					}
 				}
-			}
-		});
+			});
+		}else{
+			custom_datal();
+		}
+		
 	}
 	
 	Handler update = new Handler(){
@@ -599,26 +602,69 @@ public class NavigationActivity extends Activity implements OnClickListener{
         	String uid = SearchPreference.getFiledString(NavigationActivity.this, SearchPreference.SEARCH_UID, null);
     		String token = SearchPreference.getFiledString(NavigationActivity.this, SearchPreference.SEARCH_TOKEN, null);
     		custom_view = (GridView) mView.findViewById(R.id.custom_gridview);
-    		if (uid != null && !"".equals(uid) && token != null && !"".equals(token)) {
-    			islogin(uid, token);
-    			custom_data(uid, token);
-    		}else{
+//    		if (uid != null && !"".equals(uid) && token != null && !"".equals(token)) {
+//    			islogin(uid, token);
+//    			custom_data(uid, token);
+//    		}else 
+    		if(SearchPreference.ISGONE){
 //    			user_eit.setVisibility(View.GONE);
-    			custom_view.setVisibility(View.VISIBLE);
-    			grid_view1.setVisibility(View.GONE);
-    			custom_datal();
+    			Thread customl_thread = new Thread(new Runnable() {
+    				public void run() {
+    					try {
+    						
+    		    			Message msg = new Message();
+    						msg.what = 0; 
+    						customlHandler.sendMessage(msg);
+    					} catch (Exception e) {
+    						// TODO: handle exception
+    					}
+    				}
+    			});
+    			customl_thread.start();
     		}
         }  
           
 	};
 	
-	List<RulesCustomLocal> list; 
-	
+	//List<RulesCustomLocal> list; 
+	Handler customlHandler = new Handler(){
+		public void handleMessage(android.os.Message msg) {
+			if(msg.what == 0){
+				custom_view.setVisibility(View.VISIBLE);
+    			grid_view1.setVisibility(View.GONE);
+				custom_datal();
+			}
+		};
+	};
 	public void custom_datal(){
-		list = SearchSqlite.getInstance(NavigationActivity.this).selectCustom();
+		final List<RulesCustomLocal> list = SearchSqlite.getInstance(NavigationActivity.this).selectCustom();
 		if(list != null && !list.isEmpty()){
+			RulesCustomLocal lc = new RulesCustomLocal();
+			lc.id_c = 9999;
+			lc.customName = "Add+";
+			lc.link = "";
+			list.add(lc);
 			CustomAdapterLocal adapter = new CustomAdapterLocal(NavigationActivity.this, list);
 			custom_view.setAdapter(adapter);
+			custom_view.setOnItemClickListener(new OnItemClickListener() {
+
+				@Override
+				public void onItemClick(AdapterView<?> arg0, View arg1,
+						int arg2, long arg3) {
+					// TODO Auto-generated method stub
+					if(list.get(arg2).id_c == 9999){
+						Intent intent = new Intent(NavigationActivity.this, AddCustomActivity.class);
+						startActivity(intent);
+					}else{
+						Intent intent = new Intent(); 
+						intent.setAction("android.intent.action.VIEW");    
+						Uri content_url = Uri.parse(list.get(arg2).link);
+						intent.setData(content_url); 
+						intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+						startActivity(intent);
+					}
+				}
+			});
 		}else{
 			RulesCustomLocal lc = new RulesCustomLocal();
 			lc.id_c = 9999;

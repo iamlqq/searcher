@@ -190,6 +190,7 @@ public class SearchSauseActivity extends Activity implements OnClickListener{
 		case R.id.search_btn:
 			int selectInt0 = SearchPreference.getFiledInt(SearchSauseActivity.this, SearchPreference.SEARCH_KEY_INT, 0);
 			String url = info.list1.get(selectInt0).link+inputTxt.getText().toString();
+//			String url = "http://google.com";
 			Intent intent = new Intent(); 
 			intent.setAction("android.intent.action.VIEW");    
 			Uri content_url = Uri.parse(url); 

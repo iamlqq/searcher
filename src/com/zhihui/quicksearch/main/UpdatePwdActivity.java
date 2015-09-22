@@ -160,7 +160,8 @@ public class UpdatePwdActivity extends Activity implements OnClickListener{
 				txt_userhint4.setText("ÃÜÂëÐÞ¸Ä³É¹¦");
 //				Intent intent = new Intent(UpdatePwdActivity.this, LoginActivity.class);
 //				startActivity(intent);
-				sendBroadcast(new Intent("com.zhihui.search.log"));
+//				sendBroadcast(new Intent("com.zhihui.search.log"));
+				SearchPreference.ISGONE = false;
 				sendBroadcast(new Intent("com.zhihui.search.custom")); 
 				UpdatePwdActivity.this.finish();
 				closeA();

@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.zhihui.quicksearch.bean.UserInfoJ;
 import com.zhihui.quicksearch.http.SearchGlobal;
 import com.zhihui.quicksearch.http.SearchHttp;
+import com.zhihui.quicksearch.http.SearchPreference;
 import com.zhihui.quicksearch.util.Base64Util;
 import com.zhihui.quicksearch.util.SearchUtil;
 import com.zhihui.quicksearch.util.SecurityUtils;
@@ -170,7 +171,8 @@ public class RegisterActivity extends Activity implements OnClickListener{
 		public void handleMessage(android.os.Message msg) {
 			if(msg.what == 0){
 				txt_userhint3.setText("已经注册成功等待3秒回到主页面");
-				sendBroadcast(new Intent("com.zhihui.search.log"));
+//				sendBroadcast(new Intent("com.zhihui.search.log"));
+				SearchPreference.ISGONE = false;
 				sendBroadcast(new Intent("com.zhihui.search.custom")); 
 				RegisterActivity.this.finish();
 			}else if(msg.what == 1){

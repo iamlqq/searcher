@@ -68,6 +68,7 @@ public class SearchSqlite extends SQLiteOpenHelper {
 		}
 		long row = db.insert(TABLE_CUSTOMD, null, cv);
 		System.out.println("low" + row);
+		System.out.println("------------"+ selectCustom().size());
 		return row;
 	}
 	
@@ -76,26 +77,41 @@ public class SearchSqlite extends SQLiteOpenHelper {
 		CustomList = new ArrayList<RulesCustomLocal>();
 		// 调用读取数据的方法
 		SQLiteDatabase db = this.getWritableDatabase(); // 得到数据库实例
-		String[] columns = {"id"};
+		String[] columns = {"id", "id_c", "customName", "link"};
 		if (!db.isOpen()) {
 			db = this.getWritableDatabase();
 		}
 		// 调用查询数据表的方法，底层封装好了直接调用，传入你要查询的参数就可以了
 		Cursor cursor = db.query(TABLE_CUSTOMD, columns, null, null, null,
 				null, null);
-		
-		// 以游标向下移动的方式，来逐行读取数据
 		if (cursor != null && cursor.getCount() > 0) {
 			cursor.moveToFirst();
 		}
+//		while (cursor.moveToNext()) {
+//			RulesCustomLocal rc = new RulesCustomLocal();
+//			rc.setId(cursor.getInt(0));
+//			rc.setId_c(cursor.getInt(1));
+//			rc.setCustomName(cursor.getString(2));
+//			rc.setLink(cursor.getString(3));
+//			CustomList.add(rc);
+//		}
+		
+		// 以游标向下移动的方式，来逐行读取数据
+		/*if (cursor != null && cursor.getCount() > 0) {
+			cursor.moveToFirst();
+		}*/
 		for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
 			RulesCustomLocal rc = new RulesCustomLocal();
 			rc.setId(cursor.getInt(0));
+			rc.setId_c(cursor.getInt(1));
+			rc.setCustomName(cursor.getString(2));
+			rc.setLink(cursor.getString(3));
 			CustomList.add(rc);
 		}
 		// 关闭游标，接着关闭数据库，切忌一定要关，不然程序会报错。
 		cursor.close();
 		return CustomList;
 	}
+
 
 }

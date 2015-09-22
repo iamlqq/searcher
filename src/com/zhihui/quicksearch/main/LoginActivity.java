@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.zhihui.quicksearch.bean.UserInfoJ;
 import com.zhihui.quicksearch.http.SearchGlobal;
 import com.zhihui.quicksearch.http.SearchHttp;
+import com.zhihui.quicksearch.http.SearchPreference;
 import com.zhihui.quicksearch.util.Base64Util;
 import com.zhihui.quicksearch.util.SearchUtil;
 import com.zhihui.quicksearch.util.SecurityUtils;
@@ -136,6 +137,7 @@ public class LoginActivity extends Activity implements OnClickListener{
 				btn_loginsure.setClickable(true);
 				txt_logintishi2.setText("µÇÂ¼³É¹¦");
 //				sendBroadcast(new Intent("com.zhihui.search.log"));
+				SearchPreference.ISGONE = false;
 				sendBroadcast(new Intent("com.zhihui.search.custom")); 
 				LoginActivity.this.finish();
 				closeA();
